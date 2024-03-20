@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,9 @@ namespace ArraysExercise_MariaMelendez
         {
             Circle[] circles = GenerateCircles();
             PrintCircleInformation(circles);
+            Point newPoint = NewPointFromUser();
+            CheckPointInsideCircles(newPoint, circles);
+
 
         }
 
@@ -60,10 +64,37 @@ namespace ArraysExercise_MariaMelendez
         }
 
         // method to require a point from the user 
-        static void NewCircle()
+        static Point NewPointFromUser()
         {
+            Console.WriteLine("Please enter the x coordinate of a point to check if it is inside the circle:");
+            double xPoint = double.Parse(Console.ReadLine());
+            Console.WriteLine("Please enter the y coordinate of a point to check if it is inside the circle:");
+            double yPoint = double.Parse(Console.ReadLine());
 
+            Point checkPoint = new Point(xPoint, yPoint);
+            return checkPoint;
         }
+        
+        // method to check if a point is inside any of the circles in the array
+        static void CheckPointInsideCircles(Point point, Circle[] circles)
+        {
+            bool foundInside = false;
+
+            foreach (Circle circle in circles)
+            {
+                if (circle.IsInside(point))
+                {
+                    foundInside = true;
+                    Console.WriteLine($"Point ({point.X}, {point.Y}) is inside the circle with center ({circle.Point.X}, {circle.Point.Y}) and radius {circle.Radius}");
+                }
+            }
+
+            if (!foundInside)
+            {
+                Console.WriteLine($"Point ({point.X}, {point.Y}) is not inside any of the circles.");
+            }
+        }
+
 
 
     }
